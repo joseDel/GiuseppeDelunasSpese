@@ -21,9 +21,36 @@ namespace Academy.Esercitazione1.Core.BusinessLayer
             _utenteRepository = utenteRepo;
         }
 
-        public void InserireNuovaSpesa(Spesa spesa)
+        public IEnumerable<Spesa> FiltraSpeseMeseScorso()
         {
-            _spesaRepository.InserireNuovaSpesa(spesa);
+            var speseFiltrate = _spesaRepository.FetchAllFilter(e => e.Approvato &&
+            e.Data >= DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-1) &&
+            e.Data <= DateTime.Today.AddDays(-DateTime.Today.Day));
+
+            return speseFiltrate;
+        }
+
+        public Spesa GetById(int id)
+        {
+            if (id <= 0)
+                return null;
+
+            return _spesaRepository.GetById(id);
+        }
+
+        public bool InserireNuovaSpesa(Spesa spesa)
+        {
+            if (spesa == null)
+                return false;
+            return _spesaRepository.Add(spesa);
+        }
+
+        public bool Update(Spesa spesaAggiornata)
+        {
+            if (spesaAggiornata == null)
+                return false;
+
+            return _spesaRepository.Update(spesaAggiornata);
         }
     }
 }

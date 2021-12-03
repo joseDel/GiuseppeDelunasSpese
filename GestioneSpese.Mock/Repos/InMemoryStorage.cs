@@ -141,7 +141,7 @@ namespace Academy.Esercitazione1.Mock.Repos
                 Data = new DateTime(2021, 11, 28),
                 Descrizione = " ",
                 Importo = 19,
-                Approvato = false,
+                Approvato = true,
                 CategoriaId = 2,
                 UtenteId = 3,
             },

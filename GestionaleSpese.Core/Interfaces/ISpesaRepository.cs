@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace GestionaleSpese.Core.Interfaces
 {
-    public interface ISpesaRepository
-    {
-        void InserireNuovaSpesa(Spesa spesa);
+    public interface ISpesaRepository : IRepository<Spesa>
+    { 
     }
 }

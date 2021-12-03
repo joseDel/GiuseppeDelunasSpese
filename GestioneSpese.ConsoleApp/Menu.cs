@@ -22,7 +22,7 @@ namespace GestioneSpese.ConsoleApp
 
             do
             {
-                Console.WriteLine("Scegli 1 per inserire nuova spesa." +
+                Console.WriteLine("Scegli 1 per inserire una nuova spesa." +
                     "\nScegli 2 per approvare una spesa." +
                     "\nScegli 3 per visualizzare le spese del mese precedente." +
                     "\nScegli 4 per visualizzare le spese di uno specifico utente." +
@@ -77,7 +77,13 @@ namespace GestioneSpese.ConsoleApp
 
         private static void SpeseMeseScorso()
         {
-            throw new NotImplementedException();
+            IEnumerable<Spesa> speseMeseScorso = mainBL.FiltraSpeseMeseScorso();
+            Console.WriteLine("Le seguenti spese riguardanti il mese scorso sono state approvate: ");
+            foreach (Spesa spesa in speseMeseScorso)
+            {
+                Console.WriteLine($"Id: {spesa.Id}, Importo: {spesa.Importo}");
+
+            }
         }
 
         private static void SpesePerUtente()
@@ -87,12 +93,31 @@ namespace GestioneSpese.ConsoleApp
 
         private static void ApprovareSpesa()
         {
-            throw new NotImplementedException();
+            Console.Write($"\nInserisci Id della spesa: ");
+            int id;
+
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("\nPuoi inserire solo numeri interi. Riprova: ");
+            }
+
+            Spesa s = mainBL.GetById(id);
+            if (!s.Approvato) //se è falso che la spesa non è già approvata
+                Console.WriteLine("Spesa già approvata");
+            else
+            {
+                s.Approvato = true;
+
+                bool isUpdated = mainBL.Update(s);
+
+                if (isUpdated)
+                    Console.WriteLine("Modifica effettuata");
+                else Console.WriteLine("Ops... qualcosa è andato storto");
+            }
         }
 
         private static void InserireNuovaSpesa()
         {
-            Spesa spesa = new Spesa();
             string id;
             DateTime data;
             string descrizione;
@@ -108,36 +133,39 @@ namespace GestioneSpese.ConsoleApp
             {
                 Console.WriteLine("Inserisci un formato corretto di data!");
             }
-            spesa.Data = data;
 
             Console.WriteLine("Descrizione: ");
             descrizione = Console.ReadLine();
-            spesa.Descrizione = descrizione;
 
             Console.WriteLine("Importo: ");
             while (!decimal.TryParse(Console.ReadLine(), out importo))
             {
                 Console.WriteLine("Inserisci un formato corretto di importo!");
             }
-            spesa.Importo = importo;
 
             Console.WriteLine("Id utente: ");
             while (!int.TryParse(Console.ReadLine(), out utenteId))
             {
                 Console.WriteLine("Inserisci un formato corretto.");
             }
-            spesa.UtenteId = utenteId;
 
             Console.WriteLine("Id categoria: ");
             while (!int.TryParse(Console.ReadLine(), out catId))
             {
                 Console.WriteLine("Inserisci un formato corretto.");
             }
-            spesa.CategoriaId = catId;
-            spesa.Approvato = false;
-            spesa.Id = 10; // metto un numero a caso per prova, perché implementerò successivamente un metodo GetId
 
-            mainBL.InserireNuovaSpesa(spesa);
+            Spesa spesa = new Spesa()
+            {
+                Data = data,
+                Descrizione = descrizione,
+                Approvato = false,
+                Importo = importo,
+                UtenteId = utenteId,
+                CategoriaId = catId,
+            };
+
+            bool CorrettamenteAggiunto = mainBL.InserireNuovaSpesa(spesa);
         }
     }
 }

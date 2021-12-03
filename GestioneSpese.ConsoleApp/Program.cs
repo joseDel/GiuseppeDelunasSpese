@@ -12,4 +12,6 @@ public IEnumerable<Expense> FetchExpensesApprovedLastMonth()
 } */
 
 
-Console.WriteLine("Hello, World!");
+using GestioneSpese.ConsoleApp;
+
+Menu.Start();

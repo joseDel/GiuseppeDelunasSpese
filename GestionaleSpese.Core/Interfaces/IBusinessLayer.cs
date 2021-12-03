@@ -9,6 +9,9 @@ namespace GestionaleSpese.Core.Interfaces
 {
     public interface IBusinessLayer
     {
-        public void InserireNuovaSpesa(Spesa spesa);
+        public bool InserireNuovaSpesa(Spesa spesa);
+        Spesa GetById(int id);
+        bool Update(Spesa s);
+        IEnumerable<Spesa> FiltraSpeseMeseScorso();
     }
 }
