@@ -49,7 +49,7 @@ namespace GestioneSpese.ConsoleApp
                         SpesePerUtente();
                         break;
                     case '5':
-                        TotSpesePerCategoria();
+                        TotSpesePerCategoriaMeseScorso();
                         break;
                     case '6':
                         OrdinaSpeseCrono();
@@ -70,25 +70,43 @@ namespace GestioneSpese.ConsoleApp
             throw new NotImplementedException();
         }
 
-        private static void TotSpesePerCategoria()
+        private static void TotSpesePerCategoriaMeseScorso()
         {
-            throw new NotImplementedException();
+            // ottengo spese del mese scorso
+            var risultato = mainBL.TotSpesePerCategoriaMeseScorso();
+            foreach (var item in risultato)
+            {
+                Console.WriteLine($"{item}");
+            }
+
         }
 
         private static void SpeseMeseScorso()
         {
-            IEnumerable<Spesa> speseMeseScorso = mainBL.FiltraSpeseMeseScorso();
+            IEnumerable<Spesa> speseMeseScorso = mainBL.FiltraSpeseMeseScorso(true);
             Console.WriteLine("Le seguenti spese riguardanti il mese scorso sono state approvate: ");
             foreach (Spesa spesa in speseMeseScorso)
             {
-                Console.WriteLine($"Id: {spesa.Id}, Importo: {spesa.Importo}");
+                Console.WriteLine(spesa);
 
             }
         }
 
         private static void SpesePerUtente()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Inserisci Id utente.");
+            int id;
+
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.Write("\nPuoi inserire solo numeri interi. Riprova: ");
+            }
+
+            Utente u = (Utente)mainBL.GetById(id, "utente");
+            IEnumerable<Spesa> spesePerUtente = mainBL.SpesePerUtente(id);
+            Console.WriteLine("Elenco delle spese per l'utente selezionato: ");
+            foreach (Spesa s in spesePerUtente)
+                Console.WriteLine(s);
         }
 
         private static void ApprovareSpesa()
@@ -101,7 +119,7 @@ namespace GestioneSpese.ConsoleApp
                 Console.Write("\nPuoi inserire solo numeri interi. Riprova: ");
             }
 
-            Spesa s = mainBL.GetById(id);
+            Spesa s = (Spesa)mainBL.GetById(id, "spesa");
             if (!s.Approvato) //se è falso che la spesa non è già approvata
                 Console.WriteLine("Spesa già approvata");
             else
@@ -165,7 +183,10 @@ namespace GestioneSpese.ConsoleApp
                 CategoriaId = catId,
             };
 
-            bool CorrettamenteAggiunto = mainBL.InserireNuovaSpesa(spesa);
+            bool correttamenteAggiunto = mainBL.InserireNuovaSpesa(spesa);
+            if (correttamenteAggiunto)
+                Console.WriteLine("La spesa è stata aggiunta correttamente.");
+            else Console.WriteLine("Qualcosa è andato storto.");
         }
     }
 }

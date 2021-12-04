@@ -8,7 +8,7 @@ namespace GestionaleSpese.Core.Interfaces
 {
     public interface IRepository<T>
     {
-        IEnumerable<T> FetchAllFilter(Func<T, bool> filter = null); //altro metodo che fa la fetch ma con filtro
+        IEnumerable<T> FetchAllFilter(Func<T, bool> filter = null); // altro metodo che fa la fetch ma con filtro
         List<T> FetchAll();
         T GetById(int id);
         bool Add(T item);

@@ -1,5 +1,6 @@
 ﻿using Academy.Esercitazione1.Core.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,10 @@ namespace GestionaleSpese.Core.Interfaces
     public interface IBusinessLayer
     {
         public bool InserireNuovaSpesa(Spesa spesa);
-        Spesa GetById(int id);
+        Object GetById(int id, string repo);
         bool Update(Spesa s);
-        IEnumerable<Spesa> FiltraSpeseMeseScorso();
+        IEnumerable<Spesa> FiltraSpeseMeseScorso(bool approvato = false);
+        IEnumerable<Spesa> SpesePerUtente(int id);
+        IEnumerable TotSpesePerCategoriaMeseScorso();
     }
 }

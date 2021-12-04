@@ -1,6 +1,7 @@
 ﻿using Academy.Esercitazione1.Core.Entities;
 using GestionaleSpese.Core.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,21 +22,36 @@ namespace Academy.Esercitazione1.Core.BusinessLayer
             _utenteRepository = utenteRepo;
         }
 
-        public IEnumerable<Spesa> FiltraSpeseMeseScorso()
+        public IEnumerable<Spesa> FiltraSpeseMeseScorso(bool approvato)
         {
-            var speseFiltrate = _spesaRepository.FetchAllFilter(e => e.Approvato &&
-            e.Data >= DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-1) &&
-            e.Data <= DateTime.Today.AddDays(-DateTime.Today.Day));
-
-            return speseFiltrate;
+            if (approvato)
+            {
+                var speseFiltrate = _spesaRepository.FetchAllFilter(e => e.Approvato &&
+                e.Data >= DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-1) &&
+                e.Data <= DateTime.Today.AddDays(-DateTime.Today.Day));
+                return speseFiltrate;
+            }
+            else
+            {
+                var speseFiltrate = _spesaRepository.FetchAllFilter(e => 
+                e.Data >= DateTime.Today.AddDays(-DateTime.Today.Day + 1).AddMonths(-1) &&
+                e.Data <= DateTime.Today.AddDays(-DateTime.Today.Day));
+                return speseFiltrate;
+            }
         }
 
-        public Spesa GetById(int id)
+        public Object GetById(int id, string repo)
         {
             if (id <= 0)
                 return null;
 
-            return _spesaRepository.GetById(id);
+            if (repo == "spesa")
+                return _spesaRepository.GetById(id);
+            else if (repo == "utente")
+                return _utenteRepository.GetById(id);
+            else if (repo == "categoria")
+                return _categoriaRepository.GetById(id);
+            else return null;
         }
 
         public bool InserireNuovaSpesa(Spesa spesa)
@@ -43,6 +59,19 @@ namespace Academy.Esercitazione1.Core.BusinessLayer
             if (spesa == null)
                 return false;
             return _spesaRepository.Add(spesa);
+        }
+
+        public IEnumerable<Spesa> SpesePerUtente(int id)
+        {
+            if (id == null)
+                return null;
+            return _spesaRepository.FetchAllFilter(e => e.UtenteId == id);
+        }
+
+        public IEnumerable TotSpesePerCategoriaMeseScorso()
+        {
+            var speseMeseScorso = FiltraSpeseMeseScorso(true);
+            return _spesaRepository.GroupBySum(speseMeseScorso);
         }
 
         public bool Update(Spesa spesaAggiornata)

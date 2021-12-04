@@ -1,4 +1,5 @@
 ﻿using Academy.Esercitazione1.Core.Entities;
+using Academy.Esercitazione1.Mock.Repos;
 using GestionaleSpese.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace GestioneSpese.Mock.Repos
 
         public Categoria GetById(int id)
         {
-            throw new NotImplementedException();
+            return InMemoryStorage.categorie.SingleOrDefault(b => b.Id == id);
         }
 
         public bool Update(Categoria item)

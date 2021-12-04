@@ -2,6 +2,7 @@
 using Academy.Esercitazione1.Mock.Repos;
 using GestionaleSpese.Core.Interfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,14 @@ namespace GestioneSpese.Mock.Repos
         public Spesa GetById(int id)
         {
             return InMemoryStorage.spese.SingleOrDefault(b => b.Id == id);
+        }
+
+        public IEnumerable GroupBySum(IEnumerable<Spesa> spese)
+        {
+            var result = spese.GroupBy(a => a.CategoriaId).Select(a => new 
+            { Totale = a.Sum(b => b.Importo), Categoria = a.Key }).OrderByDescending(a => a.Totale).ToList();
+
+             return result;
         }
 
         public bool Update(Spesa spesaAggiornata)

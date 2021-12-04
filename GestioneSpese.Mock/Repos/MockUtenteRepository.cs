@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Academy.Esercitazione1.Core.Entities;
+using Academy.Esercitazione1.Mock.Repos;
 using GestionaleSpese.Core.Interfaces;
 
 namespace GestioneSpese.Mock.Repos
@@ -32,7 +33,7 @@ namespace GestioneSpese.Mock.Repos
 
         public Utente GetById(int id)
         {
-            throw new NotImplementedException();
+            return InMemoryStorage.utenti.SingleOrDefault(b => b.Id == id);
         }
 
         public bool Update(Utente item)

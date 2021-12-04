@@ -15,5 +15,10 @@ namespace Academy.Esercitazione1.Core.Entities
         public bool Approvato { get; set; }
         public int CategoriaId { get; set; }
         public int UtenteId { get; set; }
+
+        public override string ToString()
+        {
+            return $"Spesa: Id -> {Id}, Importo -> {Importo}, Descrizione -> {Descrizione}";
+        }
     }
 }
