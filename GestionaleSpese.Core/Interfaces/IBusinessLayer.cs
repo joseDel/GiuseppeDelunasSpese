@@ -16,5 +16,6 @@ namespace GestionaleSpese.Core.Interfaces
         IEnumerable<Spesa> FiltraSpeseMeseScorso(bool approvato = false);
         IEnumerable<Spesa> SpesePerUtente(int id);
         IEnumerable TotSpesePerCategoriaMeseScorso();
+        IEnumerable<Spesa> OrdinaPerData();
     }
 }

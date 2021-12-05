@@ -67,7 +67,12 @@ namespace GestioneSpese.ConsoleApp
 
         private static void OrdinaSpeseCrono()
         {
-            throw new NotImplementedException();
+            IEnumerable<Spesa> spesaOrdinata = mainBL.OrdinaPerData();
+            Console.WriteLine("Elenco delle spese a partire dalla più recente.");
+            foreach (Spesa spesa in spesaOrdinata)
+            {
+                Console.WriteLine($"Id spesa: {spesa.Id}. Data: {spesa.Data}");
+            }
         }
 
         private static void TotSpesePerCategoriaMeseScorso()
@@ -96,15 +101,29 @@ namespace GestioneSpese.ConsoleApp
         {
             Console.WriteLine("Inserisci Id utente.");
             int id;
+            bool validazione = int.TryParse(Console.ReadLine(), out id);
+            Utente u = null;
 
-            while (!int.TryParse(Console.ReadLine(), out id))
+            while (!validazione || (u == null))
             {
-                Console.Write("\nPuoi inserire solo numeri interi. Riprova: ");
+                if (validazione == false)
+                {
+                    Console.Write("\nPuoi inserire solo numeri interi. Riprova: ");
+                    validazione = int.TryParse(Console.ReadLine(), out id);
+                }
+                else
+                {
+                    u = (Utente)mainBL.GetById(id, "utente");
+                    if (u == null)
+                    {
+                        Console.Write("\nL'Id selezionato non appartiene a nessun utente. Inserisci Id valido.");
+                        validazione = int.TryParse(Console.ReadLine(), out id);
+                    }
+                }
             }
 
-            Utente u = (Utente)mainBL.GetById(id, "utente");
             IEnumerable<Spesa> spesePerUtente = mainBL.SpesePerUtente(id);
-            Console.WriteLine("Elenco delle spese per l'utente selezionato: ");
+            Console.WriteLine($"Elenco delle spese per l'utente {u.Id}: ");
             foreach (Spesa s in spesePerUtente)
                 Console.WriteLine(s);
         }

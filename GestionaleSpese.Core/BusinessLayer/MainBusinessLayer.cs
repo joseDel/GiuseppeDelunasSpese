@@ -61,6 +61,11 @@ namespace Academy.Esercitazione1.Core.BusinessLayer
             return _spesaRepository.Add(spesa);
         }
 
+        public IEnumerable<Spesa> OrdinaPerData()
+        {
+            return _spesaRepository.OrdinaPerData();
+        }
+
         public IEnumerable<Spesa> SpesePerUtente(int id)
         {
             if (id == null)

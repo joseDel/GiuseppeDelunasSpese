@@ -18,7 +18,8 @@ namespace Academy.Esercitazione1.Core.Entities
 
         public override string ToString()
         {
-            return $"Spesa: Id -> {Id}, Importo -> {Importo}, Descrizione -> {Descrizione}";
+            return $"Spesa: Id -> {Id}, Importo -> {Importo}, Data -> {Data}, Stato di approvazione: {Approvato}" +
+                    $"\nId utente: -> {UtenteId}, Id categoria: {CategoriaId}";
         }
     }
 }

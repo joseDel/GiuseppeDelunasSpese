@@ -11,5 +11,6 @@ namespace GestionaleSpese.Core.Interfaces
     public interface ISpesaRepository : IRepository<Spesa>
     {
         IEnumerable GroupBySum(IEnumerable<Spesa> spese);
+        IEnumerable<Spesa> OrdinaPerData();
     }
 }

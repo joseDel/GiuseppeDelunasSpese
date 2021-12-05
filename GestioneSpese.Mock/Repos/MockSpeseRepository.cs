@@ -29,7 +29,7 @@ namespace GestioneSpese.Mock.Repos
 
         public List<Spesa> FetchAll()
         {
-            throw new NotImplementedException();
+            return InMemoryStorage.spese;
         }
 
         public IEnumerable<Spesa> FetchAllFilter(Func<Spesa, bool> filter = null)
@@ -54,6 +54,16 @@ namespace GestioneSpese.Mock.Repos
             { Totale = a.Sum(b => b.Importo), Categoria = a.Key }).OrderByDescending(a => a.Totale).ToList();
 
              return result;
+        }
+
+        public IEnumerable<Spesa> OrdinaPerData()
+        {
+            IEnumerable<Spesa> spese = FetchAll();
+            var result =
+                from spesa in spese
+                orderby spesa.Data descending
+                select spesa;
+            return result;
         }
 
         public bool Update(Spesa spesaAggiornata)
