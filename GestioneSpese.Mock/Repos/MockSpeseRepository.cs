@@ -50,8 +50,8 @@ namespace GestioneSpese.Mock.Repos
 
         public IEnumerable GroupBySum(IEnumerable<Spesa> spese)
         {
-            var result = spese.GroupBy(a => a.CategoriaId).Select(a => new 
-            { Totale = a.Sum(b => b.Importo), Categoria = a.Key }).OrderByDescending(a => a.Totale).ToList();
+            var result = spese.GroupBy(spesa => spesa.CategoriaId).Select(a => new 
+            { Totale = a.Sum(spesa => spesa.Importo), Categoria = a.Key }).OrderByDescending(a => a.Totale).ToList();
 
              return result;
         }
