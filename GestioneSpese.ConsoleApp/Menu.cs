@@ -12,13 +12,15 @@ namespace GestioneSpese.ConsoleApp
 {
     internal class Menu
     {
-        private static readonly IBusinessLayer mainBL = new MainBusinessLayer(new MockCategoriaRepository(),
+        private static readonly IBusinessLayer mainBL = 
+            new MainBusinessLayer(new MockCategoriaRepository(),
             new MockSpeseRepository(), new MockUtenteRepository());
         internal static void Start()
         {
             Console.WriteLine("Benvenuto!");
 
             char choice;
+
 
             do
             {
